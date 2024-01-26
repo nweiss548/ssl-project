@@ -25,11 +25,12 @@ def convert_list_of_utc_times_to_dates(t):
         times[i] = datetime.utcfromtimestamp(int(t[i]))
     return times
 
-# get list of all mgs ephemeris files 
+# open file of mgs start times and count rates 
 df = pd.read_csv("/Users/naomiweiss/SSL Files/spyder scripts/mgs_info.csv")
 
 times = df['Start Time']
 
+# convert time type from tring to spice et time
 et_times = []
 for i in times:
     et_times.append(spice.str2et(str(i)))
@@ -47,10 +48,10 @@ for t in et_times:
     print(mgs_pos)
     sun_dist.append(int(rad))
 
-  
-# df = pd.read_csv('/Users/naomiweiss/SSL Files/spyder scripts/mgs_info.csv')
-# df["Heliocentric Distance"] = sun_dist
-# df.to_csv('/Users/naomiweiss/SSL Files/spyder scripts/mgs_info.csv', index=False)
+# write sun_dist values as a column to the file with the start times and count rates
+df = pd.read_csv('/Users/naomiweiss/SSL Files/spyder scripts/mgs_info.csv')
+df["Heliocentric Distance"] = sun_dist
+df.to_csv('/Users/naomiweiss/SSL Files/spyder scripts/mgs_info.csv', index=False)
 
 
 
