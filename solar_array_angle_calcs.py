@@ -6,6 +6,11 @@ Created on Tue Mar 15 08:13:10 2022
 @author: naomiweiss
 """
 
+##----------------------------------------
+## Not sure what this code/file does
+##----------------------------------------
+
+
 import spiceypy as spice
 import numpy as np
 import csv
