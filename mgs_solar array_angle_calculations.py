@@ -6,6 +6,14 @@ Created on Mon Feb 21 22:54:13 2022
 @author: naomiweiss
 """
 
+##----------------------------------------
+## Not sure what this file was for,
+## Feel free to take a look but it may 
+## not be super illuminating
+##----------------------------------------
+
+
+
 import spiceypy as spice
 import numpy as np
 import csv
