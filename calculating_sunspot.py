@@ -11,6 +11,7 @@ import math
 import csv
 from datetime import datetime
 
+
 sunspot = pd.read_csv("/Users/naomiweiss/SSL Files/spyder scripts/sunspot_data.csv")
 
 years = sunspot['1818']
