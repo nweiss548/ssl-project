@@ -78,7 +78,7 @@ def get_bza (bx, by, bz, scx, scy, scz):
  
 
 
-# get list of all mgs ephemeris files 
+# open file of mgs start times and count rates 
 df = pd.read_csv("/Users/naomiweiss/SSL Files/mgs sep event files/mgs_info recent (without sep events).csv")
 
 times = df['Start Time']
@@ -107,15 +107,10 @@ for i in range(len(mgs_pos)):
     if b<b_init:
         b_init = b
         
-for i in range(20):
-    print(bza[i])
-# df["BZA"] = bza
-# df.to_csv('/Users/naomiweiss/SSL Files/mgs sep event files/mgs_info recent (without sep events).csv', index=False)
+# write bza values as a column to the file named below
+df["BZA"] = bza
+df.to_csv('/Users/naomiweiss/SSL Files/mgs sep event files/mgs_info recent (without sep events).csv', index=False)
 
-
-    
-    
-    
     
     
     
