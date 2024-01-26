@@ -5,7 +5,7 @@ Created on Mon Jun 28 15:03:37 2021
 
 @author: naomiweiss
 """
-
+# import python packages
 import csv
 import scipy.io as sio
 from scipy.io import readsav
@@ -18,18 +18,14 @@ import pandas as pd
 import glob
 import os
 
-def find_bin(val, bin_lims):
-    for i in (range(len(bin_lims)-1)):
-        if(val >= bin_lims[i] and val <= bin_lims[i+1]):
-            return i-1
-    return -1
-
+# convert utc times to datetime objects
 def convert_list_of_utc_times_to_dates(t):
     times = np.empty(len(t), dtype = object)
     for i in range(len(times)):
         times[i] = datetime.utcfromtimestamp(int(t[i]))
     return times
 
+# given two time stamps return a list of the times and count values between them
 def choose_timeframe(start, stop, times, counts):
     t = []; c = []
     for i in range(len(times)):
@@ -61,14 +57,15 @@ spice.furnsh(solar_system_kern)
 
 print("furnished!")
 
+# put time column and count rate column into python lists
 times = s['time']
 crs = s['rate']
 
-
+# convert all utc times to dates and isolate a range of the data 
 dates = convert_list_of_utc_times_to_dates(times)
 dates, crs = choose_timeframe(datetime(2001, 3, 1), datetime(2001, 6, 30), dates, crs)
     
-
+# convert datetime objects to et
 et_times = []
 for i in dates:
     et_times.append(spice.str2et(str(i)))
@@ -85,13 +82,14 @@ for t in et_times:
     [rad, lon, lat] = spice.reclat(mgs_pos)
     lons.append(lon)
     altitudes.append(rad-3389)
-    
+
+# calculate local times and save in local_times
 local_times = []
 for l, t in zip(lons, et_times):
     [hour, minute, second, local_time, local_ampm] = spice.et2lst(t, 499, l, 'PLANETOCENTRIC')
     local_times.append(local_time)
     
-
+# make file called mgs_2001_info.csv and write data into it
 with open('mgs_2001_info.csv','w',newline='') as f:
     writer=csv.writer(f)
     header="Start Time","Local Time","Altitude","Counts"
