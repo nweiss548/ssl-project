@@ -6,6 +6,9 @@ Created on Fri Feb 11 10:21:58 2022
 @author: naomiweiss
 """
 
+##----------------------------------------
+## Not sure what this code/file does
+##----------------------------------------
 
 import spiceypy as spice
 import numpy as np
