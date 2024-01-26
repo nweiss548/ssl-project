@@ -11,13 +11,15 @@ import matplotlib.pyplot as plt
 import math
 from scipy.stats import sem
 
+# open csv with count rate, season, heliocentric distance, 
+# and bza columns and save each col into a list
 df = pd.read_csv("/Users/naomiweiss/SSL Files/mgs sep event files/finding season and sun dist correlation for mgs/high_ssn split/high_ssn_60.csv")
 
 cr = df['Sky Blockage Adjusted CR	']
 ls = df["Season"]
 sd = df["Heliocentric Distance"]
 
-               
+# calculate the average count rate within each bin and add to list, omitting non numerical values in the data               
 avg_cr = []
 std_error = []
 bins = ['0-36', '36-72', '72-108', '108-144', '144-180', '180-216', '216-252', '252-288', '288-324', '324-360']
@@ -36,20 +38,8 @@ for i in range(36, 396, 36):
     avg_cr.append(sum/num_vals)
     std_error.append(sem(std_error_list, nan_policy='omit'))
 
-print(std_error)
+# open a file called ls_bin.csv and add the list of average count rates as a column
+df = pd.read_csv("/Users/naomiweiss/SSL Files/spyder scripts/ls_bin.csv")
+df["Avg Cr (high_ssn_180)"] = avg_cr
+df.to_csv('/Users/naomiweiss/SSL Files/spyder scripts/ls_bin.csv', index=False)
 
-# df = pd.read_csv("/Users/naomiweiss/SSL Files/spyder scripts/ls_bin.csv")
-# df["Avg Cr (high_ssn_180)"] = avg_cr
-# df.to_csv('/Users/naomiweiss/SSL Files/spyder scripts/ls_bin.csv', index=False)
-
-
-# with open('ls_bin.csv', 'w', newline='') as file:
-#      writer = csv.writer(file)
-     
-#      writer.writerow(["Season Bin","Season","Avg Cr (low_ssn_60)"])
-#      for i in range(0,10):
-#          writer.writerow([bins[i], end_bin[i], avg_cr[i]])
-        
-
-# plt.scatter(sd, cr, s=area, alpha=0.5)
-# plt.show()
