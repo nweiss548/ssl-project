@@ -52,14 +52,14 @@ frame_kern = os.path.join(data_folder, "maven_v09.tf.txt")
 solar_system_kern = os.path.join(data_folder, "de405.bsp")
 pck_kern = os.path.join(data_folder, "PCK00010.TPC.txt")
 
-# # furnsh files
-# spice.furnsh(pos_files)
-# spice.furnsh(pck_kern)
-# spice.furnsh(lsk_kern)
-# spice.furnsh(frame_kern)
-# spice.furnsh(solar_system_kern)
+# furnsh files
+spice.furnsh(pos_files)
+spice.furnsh(pck_kern)
+spice.furnsh(lsk_kern)
+spice.furnsh(frame_kern)
+spice.furnsh(solar_system_kern)
 
-
+# open file of mex data and write the date into a list
 with open('/Users/naomiweiss/SSL Files/spyder scripts/mex_ima_2004-2006.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     line_count = 0
@@ -69,6 +69,7 @@ with open('/Users/naomiweiss/SSL Files/spyder scripts/mex_ima_2004-2006.csv') as
         date.append(row[0])
     del date[0]
 
+# convert times to spice et times
 et_times = []
 for d in date:
     t = spice.str2et(d)
@@ -79,19 +80,19 @@ rf = 'J2000'
 targ = 'MEX'
 obs = 'MARS'
 
-
+# for each time use a spice routine to calculate the gza and append it to a list
 gza = []
 for i in range(len(et_times)):
     [mex_pos, ltime] = spice.spkpos(targ, et_times[i], rf,'NONE', obs)
     gza.append((angle(mex_pos, NOSE)*180)/math.pi)
 
-    
+# write the gza values to the original file 
 df = pd.read_csv("/Users/naomiweiss/SSL Files/spyder scripts/mex_ima_2004-2006.csv")
 df["GZA"] = gza
 df.to_csv("/Users/naomiweiss/SSL Files/spyder scripts/mex_ima_2004-2006.csv", index=False)
  
 
-
+# use this to write the gza values to their own file with a timestamp
 # with open('mex_info (without sep events) gza.csv','w',newline='') as f:
 #     writer=csv.writer(f)
 #     header='DATE', 'GZA'
