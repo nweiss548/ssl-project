@@ -12,7 +12,7 @@ import math
 
 RADIUS = 3389.5
 
-# open file of mex data and write each all the altitudes and count rates into a list
+# open file of mex data and write the altitudes and count rates into a list
 with open('/Users/naomiweiss/SSL Files/spyder scripts/mex_ima_2004-2006.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     line_count = 0
