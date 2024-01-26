@@ -23,14 +23,14 @@ frame_kern = os.path.join(data_folder, "maven_v09.tf.txt")
 solar_system_kern = os.path.join(data_folder, "de405.bsp")
 pck_kern = os.path.join(data_folder, "PCK00010.TPC.txt")
 
-# # furnsh files
-# spice.furnsh(pos_files)
-# spice.furnsh(pck_kern)
-# spice.furnsh(lsk_kern)
-# spice.furnsh(frame_kern)
-# spice.furnsh(solar_system_kern)
+# furnsh files
+spice.furnsh(pos_files)
+spice.furnsh(pck_kern)
+spice.furnsh(lsk_kern)
+spice.furnsh(frame_kern)
+spice.furnsh(solar_system_kern)
 
-
+# open file of mex data and write the altitudes, dates, and count rates into lists
 with open('/Users/naomiweiss/SSL Files/spyder scripts/mex_ima_2004-2006.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     line_count = 0
@@ -43,6 +43,7 @@ with open('/Users/naomiweiss/SSL Files/spyder scripts/mex_ima_2004-2006.csv') as
         count_rate.append(row[2])
     del date[0]; del altitude[0]; del count_rate[0]
 
+# convert dates to spice et and append to a list
 et_times = []
 for d in date:
     t = spice.str2et(d)
@@ -53,12 +54,15 @@ rf = 'MAVEN_MSO'
 targ = 'MEX'
 obs = 'MARS'
 
+# iterate over every date (variable i represents index in the list) and use spice
+# routines to calculate position, ltime, and then use position to calculate sza
 sza = []
 for i in range(len(count_rate)):
     [mex_pos, ltime] = spice.spkpos(targ, et_times[i], rf,'NONE', obs)
     [trgepc, srfvec, phase, solar, emissn] = spice.ilumin('ellipsoid', obs, et_times[i], rf, 'NONE', targ, mex_pos)
     sza.append((solar*180)/math.pi)
-    
+
+# write sza values as a column to the file with the start times and count rates       
 df = pd.read_csv("/Users/naomiweiss/SSL Files/spyder scripts/mex_ima_2004-2006.csv")
 df["SZA"] = sza
 df.to_csv("/Users/naomiweiss/SSL Files/spyder scripts/mex_ima_2004-2006.csv", index=False)
