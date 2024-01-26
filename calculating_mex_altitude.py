@@ -74,8 +74,6 @@ spice.furnsh(frame_kern)
 spice.furnsh(pck_kern)
 spice.furnsh(solar_system_kern)
 
-print('0')
-
 long_start_times = []; long_end_times = []; long_crs = []
 for f in cr_files:
     for line in open(f).readlines(): 
@@ -96,7 +94,6 @@ for i in range(0, len(long_start_times)-16, 16):
             to_divide +=1
     crs.append(avg/to_divide)
     
-print(start_times[-2:-1])
 
 # # pick date range
 # dates, counts = pick_date_range(datetime(2004, 1, 1, 0, 0), datetime(2005, 12, 31, 0, 0), dates, counts)
@@ -110,8 +107,6 @@ for i in start_times:
 reference_frame = "MAVEN_MSO"
 target = "MEX"
 observer = "MARS"
-
-print('2')
         
 # get position and longitude of spacecraft for the listed times
 altitudes = []
@@ -120,9 +115,8 @@ for t in et_times:
     [rad, lon, lat] = spice.reclat(mgs_pos)
     altitudes.append(rad-3389)
     
-print('3')
     
-with open('mex_infor_through_2019.csv','w',newline='') as f:
+with open('mex_info_through_2019.csv','w',newline='') as f:
     writer=csv.writer(f)
     header="Start Time","Altitude","Counts"
     writer.writerow(header)
