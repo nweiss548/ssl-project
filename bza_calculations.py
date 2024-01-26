@@ -107,7 +107,7 @@ for i in range(len(mgs_pos)):
     if b<b_init:
         b_init = b
         
-# write bza values as a column to the file named below
+# write sun_dist values as a column to the file with the start times and count rates
 df["BZA"] = bza
 df.to_csv('/Users/naomiweiss/SSL Files/mgs sep event files/mgs_info recent (without sep events).csv', index=False)
 
