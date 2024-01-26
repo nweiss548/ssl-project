@@ -10,7 +10,7 @@ import math as m
 import pandas as pd
 import spiceypy as spice
 
-# get list of all mgs ephemeris files 
+# open file of mgs data and write the altitudes and count rates into a list
 df = pd.read_csv("/Users/naomiweiss/SSL Files/mgs sep event files/mgs_info recent (without sep events).csv")
 
 times = df['Start Time']
@@ -24,14 +24,14 @@ reference_frame = "MAVEN_MSO"
 target = "MGS"
 observer = "MARS"
 
-# get position and longitude of spacecraft for the listed times
+# use spice routine to get solar longitude of mars for each time
 solar_lon = []
 for t in et_times:
     l = spice.lspcn(observer, t, 'LT')
     l = m.degrees(l)
     solar_lon.append(l)
-
-
+    
+# write solar longitude list as a column to the data file
 df["Season"] = solar_lon
 df.to_csv('/Users/naomiweiss/SSL Files/mgs sep event files/mgs_info recent (without sep events).csv', index=False)
 
