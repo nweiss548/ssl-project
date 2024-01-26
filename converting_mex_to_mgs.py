@@ -10,12 +10,14 @@ import pandas as pd
 import math
 import csv
 
+# open file of mex data and write the sza, sunspot value, and count rates into lists
 mex = pd.read_csv("/Users/naomiweiss/SSL Files/spyder scripts/mex_info.csv")
 
 cr = mex["Sky Blockage Adjusted CR"]
 sza = mex["SZA in degrees"]
 sunspot = mex["Sunspot Number"]
 
+# bin based on sza and sunspot number and then scale the count rate by some value
 converted = 0
 converts = []
 for i in range(len(cr)):
@@ -55,7 +57,7 @@ for i in range(len(cr)):
     converts.append(converted)
     converted = 0
     
-    
+ # write all converted count rate data to a file with a timestamp   
 with open('converts.csv','w',newline='') as f:
     writer=csv.writer(f)
     header="Date","Converted Count Rate"
